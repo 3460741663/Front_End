@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.js"></script>
+    <link href="https://cdn.bootcss.com/weui/1.1.3/style/weui.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header class="nav">
+        <i class="arrow-left"></i>
+        <span>影片详情</span>
+    </header>
+    <div id="toast">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content">已标记想看</p>
+            </div>
+    </div>
+    <div class="page">
+        <section class="movie-header">
+            <div class="movie">
+                <div class="movie-background">
+
+                </div>
+                <div class="movie-filter">
+
+                </div>
+                <div class="movie-container">
+                    <!-- pic -->
+                    <div class="movie-cover">
+                        <img src="" alt="" class="img" id = "moviePic">
+                        
+                    </div>
+                    <!-- detail -->
+                    <div class="movie-content">
+                        <div class="movie-name">
+                            <span></span>
+                        </div>
+                        <div class="movie-ename">
+                            <span></span>
+                        </div>
+                        <!-- star -->
+                        <div class="movie-score">
+                            <div class="released-score">
+                                <div class="rating" id = "rating">
+                                    <span class="rating-score"></span>
+                                </div>
+                                <div class="score-num">
+                                    （<span></span>人评分）
+                                </div>
+                            </div>
+                        </div>
+                        <div class="movie-detail">
+                            <div class="movie-type"></div>
+                            <div class="address-time">
+                                <span class="address"></span>/
+                                <span class="time"></span>分钟
+                            </div>
+                            <p class="date"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="operating flex">
+                    <div class="movie-watch flex1" id = 'movie-watch'>
+                        <img src="./images/heart.png" alt="">
+                        <span>想看</span>
+                    </div>
+                    <div class="movie-mark flex1">
+                        <img src="./images/star2.png" alt="">
+                        <span>评分</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        // 自执行函数
+        (function(){
+            $.ajax({
+                url:'https://www.easy-mock.com/mock/5d2ed7c41418505a5562ae2a/movie/movie_lensson',
+                type:'get',
+                success:function(res){
+                    console.log(res);
+                    $('#moviePic').attr('src',res.data.moviePic);
+                    $('.score-num span').html(res.data.people);
+                    $('.movie-name').html(res.data.name);
+                    $('.movie-ename').html(res.data.nameEnglish);
+                    //电影类型
+                    $('.movie-type').html(res.data.type);
+                    //address
+                    $('.address').html(res.data.where);
+                    //时长
+                    $('.time').html(res.data.time);
+                    $('.date').html(res.data.date);
+                    //生成星星
+                    star(res.data.star);
+                    $('.rating-score').html(res.data.grade);
+                    
+                }
+
+            })
+            function star(star){
+                let num  = Math.floor(star);
+                let white = Math.floor(5 - star);
+                for(var i = 0; i < white; i++){
+                    $('#rating').prepend('<img class = "img" src="./images/star2.png"></img>')
+                }
+                if(star>num){
+                    $('#rating').prepend('<img class = "img" src="./images/star-h.png"></img>')
+                }
+                for(var i = 0; i < num; i++){
+                    $('#rating').prepend('<img class = "img" src="./images/star.png"></img>')
+                }
+            }
+        })()
+        // var movie_watch = document.querySelector('#movie-watch');
+        // var toast =document.querySelector('#toast');
+        // movie_watch.addEventListener('click',function(){
+        //     toast.classList.add('active');
+        //     setTimeout(function(){
+        //         toast.classList.remove('active');
+        //     },2000)
+        // })
+        var flag = false;
+        $('#movie-watch').click(function(){
+            // $('#toast').addClass('active');
+            // $('')
+            // // if(!flag){
+            // $('#movie-watch img').attr('src','./images/heart1.png');
+            // //     flag = !flag;
+            // // }
+            // // if(flag){
+            // //     $('#movie-watch img').attr('src','./images/heart.png');
+            // //     flag = !flag;
+            // // }
+            if($(this).hasClass('show')){
+                $(this).removeClass('show');
+                $('#movie-watch img').attr('src','./images/heart.png');
+                $('.weui-toast__content').html("已取消想看")
+            }else{
+                $('#movie-watch').addClass('show');
+                $('#movie-watch img').attr('src','./images/heart1.png');
+                $('.weui-toast__content').html("已标记为想看")
+
+            }
+            $('#toast').addClass('active');
+            setTimeout(() => {
+                $('#toast').removeClass('active');
+            }, 2000);
+        })
+
+
+    </script>
+</body>
+</html>
