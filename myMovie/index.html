@@ -79,6 +79,43 @@
                 </div>
             </div>
         </section>
+        <!-- section2 -->
+        <section class="section-seperate section-expender">
+            <div class="text-expander">
+                <div class="text-expander_content close">
+                    <p></p>
+                </div>
+                <div class="text-expander_button">
+                    <i class="icon-chevron_down"></i>
+                </div>
+            </div>
+        </section>
+        <!-- section3 -->
+        <section class="section-seperate">
+            <p class="action-list section-tittle">演职人员</p>
+            <ul class="movie-celebrities">
+                
+            </ul>
+        </section>
+        <!-- section4 -->
+        <div class="movie-booking section-seperate">
+            <p class="section-tittle">票房</p>
+            <div class="weui-flex">
+                    <div class="weui-flex__item"><div class="placeholder">
+                        <span id="ranking"></span>
+                        <p>昨日票房</p>
+                    </div></div>
+                    <div class="weui-flex__item"><div class="placeholder">
+                            <span id="bookingWeek"></span>
+                            <p>首周票房（万）</p>
+                    </div></div>
+                    <div class="weui-flex__item"><div class="placeholder">
+                            <span id="bookingTotal"></span>
+                            <p>累计票房（万）</p>
+                    </div></div>
+                </div>
+        </div>
+
     </div>
     <script>
         // 自执行函数
@@ -99,13 +136,24 @@
                     //时长
                     $('.time').html(res.data.time);
                     $('.date').html(res.data.date);
+                    
+                    $('.text-expander_content p').html(res.data.desc);
                     //生成星星
                     star(res.data.star);
                     $('.rating-score').html(res.data.grade);
+                    celebrity(res.data.person);
+                    //票房
+                    booking(res.data.booking);
+                    
                     
                 }
 
             })
+            function booking(e){
+                $('#ranking').html(e.ranking);
+                $('#bookingWeek').html(e.bookingWeek);
+                $('#bookingTotal').html(e.bookingTotal);
+            }
             function star(star){
                 let num  = Math.floor(star);
                 let white = Math.floor(5 - star);
@@ -119,6 +167,34 @@
                     $('#rating').prepend('<img class = "img" src="./images/star.png"></img>')
                 }
             }
+            $('.text-expander').on('click',function(){
+                if ($('.text-expander_content').hasClass('close')) {
+                    $('.icon-chevron_down').addClass('up');
+                    $('.text-expander_content').removeClass('close');
+                }else{
+                    $('.icon-chevron_down').removeClass('up');
+                    $('.text-expander_content').addClass('close');
+                }
+
+            })
+            //演员表
+            function celebrity(e){
+                for(let n of e){
+                    $('.movie-celebrities').append(
+                        `
+                        <li>
+                    <a href="#" class="link">
+                        <div class="movie-celebrities_pic">
+                            <img src="${n.avatal}" alt="">
+                        </div>
+                        <span class="movie-celebrities-nike">${n.name}</span>
+                        <span class="movie-celebrities-roles">${n.sort}</span>
+                    </a>
+                </li>
+                        `
+                    )
+                }
+            }
         })()
         // var movie_watch = document.querySelector('#movie-watch');
         // var toast =document.querySelector('#toast');
@@ -130,16 +206,6 @@
         // })
         var flag = false;
         $('#movie-watch').click(function(){
-            // $('#toast').addClass('active');
-            // $('')
-            // // if(!flag){
-            // $('#movie-watch img').attr('src','./images/heart1.png');
-            // //     flag = !flag;
-            // // }
-            // // if(flag){
-            // //     $('#movie-watch img').attr('src','./images/heart.png');
-            // //     flag = !flag;
-            // // }
             if($(this).hasClass('show')){
                 $(this).removeClass('show');
                 $('#movie-watch img').attr('src','./images/heart.png');
@@ -155,6 +221,8 @@
                 $('#toast').removeClass('active');
             }, 2000);
         })
+        
+        
 
 
     </script>
