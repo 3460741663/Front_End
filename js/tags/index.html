@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="javascript:;" id="info_a">Get Student Info</a>
+    <ul class="info-list">
+        <li><a class="info" href="javascript:;" data-id = "1">获取信息</a></li>
+        <li><a class="info" href="javascript:;" data-id = "2">Get Student Info</a></li>
+        <li><a class="info" href="javascript:;" data-id = "3">Get Student Info</a></li>
+    </ul>
+    <div class="userinfo"></div>
+    <script>
+        const infoA = document.querySelector('#info_a');
+        var getStudentInfo = (event)=>{
+            // console.log(event.target.tagName);/*获得当前事件对象*/
+            console.log(this === event.target);
+            console.log(this);//箭头函数的this指向上一级
+        }
+        infoA.addEventListener('click',getStudentInfo,false);
+        const infos = document.querySelectorAll('.info');
+        // for(let i = 0 ; i < infos.length ; i++){
+        //     infos[i].addEventListener('click',(event)=>{
+        //     const id = event.target.dataset.id;
+        //     fetchStudentInfoByid(id);
+        // })
+        // }
+        //高阶函数 infos是数组 foreach(fn)参数是函数
+        // infos.forEach((info,index) => {
+        //     console.log(info,index);
+        // });
+        const renderStudent = (student) =>{
+            document.querySelector('.userinfo').innerHTML = `<p>学号:${student.id}-姓名:${student.username}</p>`;
+        }
+        const fetchStudentInfoByid = (id)=>{
+            // console.log(id);
+            fetch('/data.json').then(data =>data.json()).then(data=>{
+                // console.log(data);
+                let info = data.student.filter(student => student.id == id)[0];
+                // data.student.forEach(item =>{
+                //     if(item.id = id ){
+                //         info = item;
+                //     }
+                // })
+                // console.log(info);
+                renderStudent(info);
+            })
+        }
+        // for(let info of infos){
+        //     info.addEventListener('click',(event)=>{
+        //     // console.log(event.target);
+        //     const id = event.target.dataset.id;
+        //     const studentInfo = fetchStudentInfoByid(id);
+        // })
+        // }
+        document.querySelector('.info-list').addEventListener('click',function(event){
+            // console.log(event.target,this);
+            const id = event.target.dataset.id;
+            const studentInfo = fetchStudentInfoByid(id);
+        })
+    </script>
+</body>
+</html>
