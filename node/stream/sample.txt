@@ -1,0 +1,15 @@
+hello world
+- 许式伟 架构课
+CPU + 存储 + I/O
+sample.text 存储器 =》 内存（cpu读取）
+输出到输出设备上，命令行
+CPU 指令 write => 存储器 流操作
+
+-require('fs/zlib') 模块化的基础
+    require('./self')引入自己的模块
+
+-pipe 流操作的抽象
+createReadStream 创建可读流
+creatWriteStream 
+pipe
+-超越浏览器 node后端

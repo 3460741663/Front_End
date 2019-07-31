@@ -9,3 +9,5 @@
     fetch返回readablestream可读流，但是页面并不能处理<!-- fetch('/data.json') -->
     data.json把可读流变成json数据格式<!-- fetch('/data.json').then(data =>data.json()) -->
     之后就能把json数据打印出来
+* 事件注册
+    
