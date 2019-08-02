@@ -11,12 +11,29 @@
             /* text-align: center; */
             display: flex;
             justify-content: center;
+            background-color: #ece060;
+        }
+
+        .welcome {
+            margin: 0 auto;
+            font-size: 40px;
+            text-align: center;
+            height: 100vh;
+            line-height: 100vh;
+            display: none;
+        }
+
+        #gameCanvas {
+            /* display: none; */
         }
     </style>
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="300" height="300">
+    <div class="welcome">
+        Welcome to Snake
+    </div>
+    <canvas id="gameCanvas" width="600" height="600">
     </canvas>
     <script>
         document.addEventListener('DOMContentLoaded',
@@ -27,41 +44,74 @@
                 var ctx = gameCanvas.getContext('2d');
                 var snake = [
                     {
-                        x : 150,
-                        y : 150
+                        x: 160,
+                        y: 140
                     },
                     {
-                        x : 140,
-                        y : 150
+                        x: 180,
+                        y: 140
                     },
                     {
-                        x : 130,
-                        y : 150
+                        x: 200,
+                        y: 140
                     },
                     {
-                        x : 120,
-                        y : 150
+                        x: 220,
+                        y: 140
                     },
                     {
-                        x : 110,
-                        y : 150
+                        x: 240,
+                        y: 140
                     }
                 ]
                 init();//初始化
                 // 画一个格子，传一个坐标数组
                 drawSnake();//画蛇
+
+                moveSnake();
+                let foodExist = true;
+                let x = parseInt(Math.random()*30) * 20;
+                let y = parseInt(Math.random()*30) * 20;
+                
+                function moveSnake() {
+                    var move = setInterval(() => {
+                        init();
+                        //增加头头
+                        var last = { x: snake[snake.length - 1].x + i * 20, y: snake[snake.length - 1].y + j * 20 };
+                        snake.push(last);
+                        // 不一定要删除尾巴，吃食时就不用
+                        // //删除尾巴
+                        // snake.splice(0, 1);
+                        //绘制之前进行碰撞监测
+                        CollisionExamine(snake,move);
+                        randomFeed();//随机投喂
+                        drawSnake();
+                    }, 300)
+                }
+                //随机投喂
+                function randomFeed() {
+                    if (!foodExist) {
+                        x = parseInt(Math.random()*30) * 20;
+                        y = parseInt(Math.random()*30) * 20;
+                        foodExist = true;
+                        console.log('喂食了！')
+                    }
+                    ctx.fillStyle = 'lightgreen';
+                    ctx.fillRect(x, y, 20, 20);
+                    
+
+                }
                 function drawSnake() {
                     snake.forEach(drawSnakePart);
                 }
                 function drawSnakePart(snakePart) {
-                    console.log(snakePart);
+
                     ctx.fillStyle = 'lightgreen';
                     ctx.strokeStyle = 'darkgreen';
-                    ctx.fillRect(snakePart.x,snakePart.y,10,10);
-                    ctx.strokeRect(snakePart.x,snakePart.y,10,10);
+                    ctx.fillRect(snakePart.x, snakePart.y, 20, 20);
+                    ctx.strokeRect(snakePart.x, snakePart.y, 20, 20);
                 }
                 function init() {
-
                     // console.log(ctx);
                     ctx.fillStyle = 'white';
                     // ctx.strokeStyle = 'black';
@@ -70,6 +120,45 @@
                         gameCanvas.height);
                     ctx.strokeRect(0, 0, gameCanvas.width,
                         gameCanvas.height);
+                }
+                //事件监听
+                //监听方向控制
+                let i = 1;
+                let j = 0;
+                let keyboradUpdate = ({ keyCode }) => {
+                    switch (keyCode) {
+                        case 37: i = -1; j = 0; break;
+                        case 38: j = -1; i = 0; break;
+                        case 39: i = 1; j = 0; break;
+                        case 40: j = 1; i = 0; break;
+                    }
+                }
+                window.addEventListener("keydown", keyboradUpdate);
+
+                //碰撞监测
+                //吃食
+                //撞墙
+                //吃自己
+                function CollisionExamine(snake,move){//参数是它的下一个位置
+                    //吃自己
+                    for (let i= 0 ; i < snake.length -1 ; i ++) {
+                        if(snake[snake.length - 1].x == snake[i].x && snake[snake.length - 1].y == snake[i].y){
+                            clearInterval(move);
+                        }
+                    }
+                    //撞墙
+                    if(snake[snake.length - 1].x < 0 || snake[snake.length - 1].x > 580 || snake[snake.length - 1].y < 0 || snake[snake.length - 1].y > 580){
+                        clearInterval(move);
+                    }
+                    //吃食
+                    if(snake[snake.length - 1].x == x && snake[snake.length - 1].y == y){
+                        //吃完食物就不存在了,重新生成
+                        foodExist = false;
+                        //吃食物，就不删除尾巴
+                        return
+                    }
+                    //不满足条件就是普通移动
+                    snake.splice(0, 1);
                 }
             });
     </script>
