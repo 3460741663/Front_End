@@ -13,7 +13,7 @@
     <!-- 游戏背景 -->
     <div id="wrapbg">
         <!-- 开始标题 -->
-        <div class="headTittle" id = "headTittle">
+        <div class="headTittle" id="headTittle">
             <img src="./img/bird0.png" alt="" id="headBird">
         </div>
         <!-- 开始按钮 -->
@@ -25,6 +25,8 @@
 
 
     </div>
+    <script src="./js/baseObj.js"></script>
+    <script src="./js/block.js"></script>
     <script src="./js/bird.js"></script>
     <script>
         var jsWrapBg = document.getElementById('wrapbg');
@@ -32,44 +34,71 @@
         var jsGrassLand1 = document.getElementById('grassLand1');
         var jsGrassLand2 = document.getElementById('grassLand2');
         var jsGrassBird = document.getElementById('headBird');
+        var blocksArr = [];//用来存储block的数据
+        var blockDistance = baseObj.ramdomNum(120,350);
         // 让草地动起来
-        var landTimer = setInterval(landRun,30);
-        function landRun(){
-            if(jsGrassLand1.offsetLeft <= -343){
+        var landTimer = setInterval(landRun, 30);
+        function landRun() {
+            if (jsGrassLand1.offsetLeft <= -343) {
                 jsGrassLand1.style.left = '343px'
             }
-            if(jsGrassLand2.offsetLeft < -343){
+            if (jsGrassLand2.offsetLeft < -343) {
                 jsGrassLand2.style.left = '343px'
             }
-            jsGrassLand1.style.left = jsGrassLand1.offsetLeft -3 + 'px';
-            jsGrassLand2.style.left = jsGrassLand2.offsetLeft -3 + 'px';
+            jsGrassLand1.style.left = jsGrassLand1.offsetLeft - 3 + 'px';
+            jsGrassLand2.style.left = jsGrassLand2.offsetLeft - 3 + 'px';
+             if(blocksArr.length){
+                 for(const blocksArrs of blocksArr){
+                     blocksArrs.moveBlock();
+                     var x = baseObj.rectangleCrashExamine(blocksArrs.downDivWrap,bird.div);
+                     var y = baseObj.rectangleCrashExamine(blocksArrs.upDivWrap,bird.div);
+                     var z = bird.div.offsetTop >=390 ;
+                     if(x || y || z){
+                         window.clearInterval(landTimer);
+                         bird.fallSpeed = 0 ;
+                         jsWrapBg.onclick = null;
+                     }
+
+                 }
+                 if(blocksArr[blocksArr.length - 1 ].downDivWrap.offsetLeft < (450 - blockDistance)){
+                     blockDistance = baseObj.ramdomNum(130,250);
+                     var newBlock = new Block();
+                     newBlock.creatBlock();
+                     blocksArr.push(newBlock);
+                 }
+             }
         }
         // 让标题摆动
-        var Y = 3 ; 
-        var index = 0 
-        var imgArr = ['img/bird0.png','img/bird1.png'];
+        var Y = 3;
+        var index = 0
+        var imgArr = ['img/bird0.png', 'img/bird1.png'];
         // 利用帧动画的原理，做出小鸟摆动翅膀的样子
-        var headWaveTimer = setInterval(headWave,200);
-        function headWave(){
-            Y *= -1 ;
+        var headWaveTimer = setInterval(headWave, 200);
+        function headWave() {
+            Y *= -1;
             jsHeadTitle.style.top = jsHeadTitle.offsetTop + Y + 'px';
             jsGrassBird.src = imgArr[index++];
-            if(index == 2){
+            if (index == 2) {
                 index = 0;
             }
         }
 
         var jsStartBtn = document.getElementById('startBtn');
-        jsStartBtn.onclick = function(){
-            jsHeadTitle.style.display = 'none' ;//隐藏标题
+        jsStartBtn.onclick = function () {
+            jsHeadTitle.style.display = 'none';//隐藏标题
             clearInterval(headWaveTimer);
             jsStartBtn.style.display = 'none';
             bird.showBird(jsWrapBg);//插入小鸟到页面中
             bird.flyBird();//控制小鸟飞翔下落
             bird.wingWave();//逐帧动画，小鸟煽动翅膀
-            jsWrapBg.onclick = function (){
+            jsWrapBg.onclick = function () {
                 bird.fallSpeed = -8;
             }
+            //开始出现管道
+            var b = new Block();
+            b.creatBlock();
+            blocksArr.push(b);
+
         }
     </script>
 </body>
