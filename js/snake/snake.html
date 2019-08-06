@@ -13,22 +13,8 @@
             justify-content: center;
             background-color: #ece060;
         }
-
-        .welcome {
-            margin: 0 auto;
-            font-size: 40px;
-            text-align: center;
-            height: 100vh;
-            line-height: 100vh;
-            display: none;
-        }
-
-        #gameCanvas {
-            /* display: none; */
-        }
     </style>
 </head>
-
 <body>
     <div class="welcome">
         Welcome to Snake
@@ -43,52 +29,35 @@
                 var gameCanvas = document.getElementById('gameCanvas');
                 var ctx = gameCanvas.getContext('2d');
                 var snake = [
-                    {
-                        x: 160,
-                        y: 140
-                    },
-                    {
-                        x: 180,
-                        y: 140
-                    },
-                    {
-                        x: 200,
-                        y: 140
-                    },
-                    {
-                        x: 220,
-                        y: 140
-                    },
-                    {
-                        x: 240,
-                        y: 140
-                    }
+                    { x: 160, y: 140 },
+                    { x: 180, y: 140 },
+                    { x: 200, y: 140 },
+                    { x: 220, y: 140 },
+                    { x: 240, y: 140 }
                 ]
                 init();//初始化
                 // 画一个格子，传一个坐标数组
                 drawSnake();//画蛇
-
                 moveSnake();
+                //初始化喂食
                 let foodExist = true;
                 let x = parseInt(Math.random()*30) * 20;
                 let y = parseInt(Math.random()*30) * 20;
-                
                 function moveSnake() {
                     var move = setInterval(() => {
                         init();
                         //增加头头
                         var last = { x: snake[snake.length - 1].x + i * 20, y: snake[snake.length - 1].y + j * 20 };
                         snake.push(last);
-                        // 不一定要删除尾巴，吃食时就不用
-                        // //删除尾巴
-                        // snake.splice(0, 1);
-                        //绘制之前进行碰撞监测
+                        //碰撞监测
                         CollisionExamine(snake,move);
-                        randomFeed();//随机投喂
+                        //可能需要投喂
+                        randomFeed();
+                        //更新蛇的位置
                         drawSnake();
                     }, 300)
                 }
-                //随机投喂
+                //投喂
                 function randomFeed() {
                     if (!foodExist) {
                         x = parseInt(Math.random()*30) * 20;
@@ -98,8 +67,6 @@
                     }
                     ctx.fillStyle = 'lightgreen';
                     ctx.fillRect(x, y, 20, 20);
-                    
-
                 }
                 function drawSnake() {
                     snake.forEach(drawSnakePart);
@@ -134,11 +101,6 @@
                     }
                 }
                 window.addEventListener("keydown", keyboradUpdate);
-
-                //碰撞监测
-                //吃食
-                //撞墙
-                //吃自己
                 function CollisionExamine(snake,move){//参数是它的下一个位置
                     //吃自己
                     for (let i= 0 ; i < snake.length -1 ; i ++) {
