@@ -1,7 +1,5 @@
 *{
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 html{
     font-size: 37.5px;
@@ -9,7 +7,7 @@ html{
 .loading{
     position: absolute;
     top: 0;
-    font: 0;
+    left: 0;
     right: 0;
     bottom: 0;
     overflow: hidden;
@@ -18,36 +16,60 @@ html{
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -0.5rem;
     margin-top: -2.13rem;
+    margin-left: -0.5rem;
+    animation: downAni 1.8s ease-in-out infinite alternate;
 }
-.c-cube__side{
-    width: 1em;
+.c-cube{
+    transform-style: preserve-3d;
+    transform: rotateX(-33.5deg) rotateY(45deg);
+    transform-origin: .5em .5em;
+    animation: rightAni 2.5s linear infinite;
+
+}
+.c-cube-side{
+    height: 5em;
+    width: 1em; 
+    position: absolute;  
+}
+.c-cube-side-front,
+.c-cube-side-back,
+.c-cube-side-left,
+.c-cube-side-right{
     border-top: none;
     border-bottom: none;
     height: 5em;
     border: 1px solid;
-    border-image: linear-gradient(#ff1224, rgba(225, 18, 36, 0)) 2 2;
-    position: absolute;
-    
+    border-image: linear-gradient(#ff1224,rgba(255,18,36,0)) 2;
 }
-.c-cube{
-    transform-style: preserve-3d;
-    transform: translateX(-33.5deg) rotateY(45deg);
-    transform-origin: .5em .5em;
+.c-cube-side-front{
+    transform: translateZ(0.5em);
 }
-.c-cube__side--front{
-    transform: translateZ(.5em);
+.c-cube-side-back{
+    transform: translateZ(-0.5em);
 }
-.c-cube__side--back{
-    transform: translateZ(-.5em);
+.c-cube-side-left{
+    transform: rotateY(-90deg) translateZ(0.5em);
 }
-.c-cube__side--left{
-    transform: translateY(-90deg) translateZ(.5em);
+.c-cube-side-right{
+    transform: rotateY(90deg) translateZ(0.5em);  
 }
-.c-cube__side--right{
-    transform: translateY(90deg) translateZ(.5em);
+.c-cube-side-top{
+    transform: rotateX(90deg) translateZ(0.5em);  
 }
-.c-cube__side--top{
-    transform: translateY(90deg) translateZ(.5em);
+@keyframes rightAni{
+    0%{
+        transform: rotateX(-33.5deg) rotateY(45deg);
+    }
+    100%{
+        transform: rotateX(-33.5deg) rotateY(405deg);
+    }
+}
+@keyframes downAni{
+    0%{
+        transform: translate3d(0);
+    }
+    to{
+        transform: translate3d(0,-.5rem,0);
+    }
 }
