@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 内置对象
+        var obj = new Object();
+        obj.name =  '李雷';
+        obj.age = 18;    
+        function creatPerson(name, age){
+            var t = new Object();
+            t.name = name;
+            t.age = age;
+            return t;
+        }
+        //3
+        function Person(name, age,hobby){
+            this.name = name;
+            this.age = age;
+            this.hobby = hobby;
+        }
+
+    </script>
+</body>
+</html>
