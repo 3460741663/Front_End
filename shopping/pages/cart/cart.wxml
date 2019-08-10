@@ -25,7 +25,7 @@
         <icon wx:else class="total-select" type="circle" color="#fff" bindtap="selectAll" ></icon>
         <text>全选</text>
         <text class="cart-total-price">￥{{totalPrice}}</text>
-        <navigator url="../orders/orders">
+        <navigator url="../user/user">
           <view class="order-icon">
             <image src="../../image/icon3.png"></image>
           </view>
