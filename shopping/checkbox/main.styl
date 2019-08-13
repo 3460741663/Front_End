@@ -1,0 +1,41 @@
+border-radius()
+    -moz-border-radius  arguments
+    -ms-border-radius   arguments
+    -webkit-border-radius   arguments
+    border-radius   arguments
+box-shadow()
+    -moz-box-shadow arguments
+    -ms-box-shadow arguments
+    -webkit-box-shadow arguments
+    box-shadow arguments
+bg_Corlor = #ffc600
+html
+    font-family sans-serif
+    background bg_Corlor
+.inbox
+    max-width 400px
+    margin 50px auto
+    background white
+    border-radius(5px)
+    box-shadow(10px 10px 0 rgba(0,0,0,.1))
+    .item
+        display flex
+        align-items center
+        border-bottom 1px solid #F1F1F1
+        &:last-child
+            border-bottom: none
+        input[type="checkbox"]
+            margin 20px
+            &:checked + p
+                background-color #f9f9f9
+                text-decoration line-through
+        p
+            margin 0
+            padding 20px
+            flex 1 
+            font-family 'helevetical neue'
+            font-size 20px
+            font-weight 200
+            border-left 1px solid #D1E2FF
+
+    

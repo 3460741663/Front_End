@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="inbox">
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox"> 
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>check one item</p>
+        </div>
+    </div>
+    <script>
+        // this.siblings();// 当前元素所有的兄弟节点
+        const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"');
+        console.log(checkboxes);
+        // shift+click 把所有的都选中
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click',handleClick);
+        })
+        checkboxes.forEach(checkbox =>checkbox.addEventListener('click',handleClick));
+        function handleClick(e){
+            if(e.shiftkey ){
+                checkboxes.forEach(checkbox=>{
+                    if(checkbox != this)
+                    checkbox.checked = this.checked;
+                })
+            }
+        }
+        // function handleClick(e){
+        //     if(e.shiftKey){
+        //         checkboxs.forEach(i=>{
+        //             i.checked = this.checked
+        //         })
+        //     }
+        // }
+
+        // function handleClick(e) {
+		// 	e.target.checked = !e.target.checked;
+		// 	if (e.shiftKey) {
+		// 		checkboxes.forEach(checkbox => {
+					
+		// 			checkbox.checked = !checkbox.checked;
+		// 		})
+		// 	}
+		// }
+
+    </script>
+</body>
+</html>
